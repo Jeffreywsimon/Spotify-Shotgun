@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Spotify Shotgun</title>
+    <style>
+
+        @font-face {
+    font-family: 'Circular Std';
+    src: url('path/to/fonts/CircularStd-Book.woff2') format('woff2'),
+         url('path/to/fonts/CircularStd-Book.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+     html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+    font-family: 'Circular Std', sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: linear-gradient(40deg, #4a4a4a 16%, #050505 99%);
+}
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+background: rgb(18,18,18);
+background: linear-gradient(352deg, rgba(18,18,18,1) 0%, rgba(24,24,24,1) 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: auto; /* Ensure scrolling if content overflows */
+}
+
+        h1 {
+        font-family: 'Circular Std', sans-serif;
+
+
+            font-size: 2.5em;
+            text-align: center;
+            margin-top: 20px;
+
+
+        }
+
+        .spotify-image{
+        position: relative;
+        width:5%;
+        height:5%;
+
+
+        z-index:3;
+        }
+
+        .container {
+            background: rgb(225,252,224);
+            background: linear-gradient(90deg, rgba(225,252,224,1) 0%, rgba(219,219,219,1) 92%);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 20px;
+            z-index:2;
+            width: 30%; /* Adjust the width as needed */
+            max-width: 1200px; /* Adjust the max-width as needed */
+            position:relative;
+        }
+
+        :root {
+    --radius: 30px; /* Define this variable for border radius */
+}
+
+.buttons-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-radius: 30px;
+}
+
+button {
+    background: white;
+    border: solid 1px;
+    padding: .375em 1.125em;
+    font-size: 1rem;
+    font-family: 'Circular Std', sans-serif;
+    border-image: linear-gradient(90deg, rgba(18,18,18,1) 0%, rgba(3,29,0,1) 99%);
+
+    border-radius: 30px; /* Adjust this value to change the softness of edges */
+}
+
+.button-arounder {
+    font-family: 'Circular Std', sans-serif;
+    font-size: 2rem;
+    background: rgb(18,18,18);
+    background: linear-gradient(90deg, rgba(18,18,18,1) 0%, rgba(3,29,0,1) 99%);
+    color: hsl(190deg, 10%, 95%);
+    box-shadow: 0 0px 0px hsla(190deg, 15%, 5%, .2);
+    transform: translateY(0);
+    border-radius: 30px; /* Add round edges here as well */
+    transition:
+        border-radius var(--dur) var(--delay) ease-out,
+        box-shadow calc(var(--dur) * 4) ease-out,
+        transform calc(var(--dur) * 4) ease-out,
+        background calc(var(--dur) * 4) steps(4, jump-end);
+}
+
+.button-arounder:hover,
+.button-arounder:focus {
+    box-shadow: 0 4px 8px hsla(190deg, 15%, 5%, .2);
+    transform: translateY(-4px);
+    background: rgb(18,18,18);
+    background: linear-gradient(90deg, rgba(18,18,18,1) 0%, rgba(3,29,0,1) 99%);
+    border-radius: var(--radius); /* Ensure this uses the defined radius */
+}
+        .album-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+
+        .album {
+            flex: 0 1 calc(50% - 40px);
+            box-sizing: border-box;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .album img {
+            max-width: 100%;
+            border-radius: 4px;
+        }
+<!--        .album img:hover {-->
+<!--            transform: scale(1.2);-->
+<!--        }-->
+
+
+        .album a {
+            color: #1DB954;
+            text-decoration: none;
+        }
+
+        .album a:hover {
+            text-decoration: underline;
+        }
+        .music-listener{
+        width: 100%;
+    height: auto;
+    display: block;
+    down:450px;
+
+        }
+
+        .header {
+background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('static/pics/soundtrap-C-2Wky-LT7k-unsplash.jpg');
+  height: 70%;
+ background-position: bottom 90% right 40%;
+  width:100%;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  margin-bottom:25px;
+}
+        .spotify-shotgun{
+font-family: 'Circular Std', sans-serif;
+  text-align: center;
+  position: relative;
+  margin-top:50px;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+   background: linear-gradient(to right, #1DB954, #1ED760, #FFFFFF 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  opacity:.7;
+    font-size:40px;
+    letter-spacing:8px;
+}
+        .subheading{
+        font-family: 'Circular Std', sans-serif;
+  text-align: center;
+  position: relative;
+  margin-top:5%;
+   color: white;
+   background: linear-gradient(to right, #1DB954, #1ED760, #FFFFFF 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  opacity:.7;
+    font-size:10px;
+    letter-spacing:4px;
+
+        }
+
+    </style>
+</head>
+<body>
+<div class="background-container">
+
+    <div class="header">
+        <div class="spotify-shotgun">
+        <h1>Spotify Shotgun</h1>
+        </div>
+        <p class="subheading">
+            Discover new sounds
+        </p>
+          <a href="/random-albums">Get Random Albums (JSON)</a><br>
+    <a href="/download-excel">Download Random Albums (Excel)</a><br>
+
+<!--        <img src="{{user_image2}}" class="music-listener" alt="listening">-->
+    </div>
+    <div class="container">
+        <div class="buttons-container">
+
+            <button class='button-arounder' onclick="fetchRandomAlbums()"> <img src="{{user_image}}" class="spotify-image" alt="spotify">Explore</button>
+</div>
+
+
+        <div class="album-info" id="album-info"></div>
+    </div>
+    </div>
+</body>
+
+
+    <script>
+        function addHeader() {
+            const container = document.getElementById('container');
+            const header = document.createElement('div');
+            header.className = 'spotify-shotgun';
+            header.innerHTML = '<h1>Spotify Shotgun</h1>';
+            container.insertBefore(header, container.firstChild);
+        }
+        function fetchRandomAlbums() {
+            fetch('/random-albums')
+                .then(response => response.json())
+                .then(data => {
+                    const albumInfoDiv = document.getElementById('album-info');
+                    albumInfoDiv.innerHTML = ''; // Clear previous results
+                    if (data.error) {
+                        albumInfoDiv.innerHTML = `<p>Error fetching albums: ${data.error}</p>`;
+                    } else if (data && data.length > 0) {
+                        data.forEach(album => {
+                            const albumDiv = document.createElement('div');
+                            albumDiv.className = 'album';
+                            albumDiv.innerHTML = `
+                                <img src="${album.image_url}" alt="Album cover of ${album.name}">
+                                <p><strong>Album Name:</strong> ${album.name}</p>
+                                <p><strong>Artist:</strong> ${album.artist}</p>
+                                <p><strong>Release Date:</strong> ${album.release_date}</p>
+                                <p><strong>Total Tracks:</strong> ${album.total_tracks}</p>
+                                <p><a href="${album.url}" target="_blank">Listen on Spotify</a></p>
+                            `;
+                            albumInfoDiv.appendChild(albumDiv);
+                        });
+                    } else {
+                        albumInfoDiv.innerHTML = `<p>No albums found. Try again!</p>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching albums:', error);
+                    const albumInfoDiv = document.getElementById('album-info');
+                    albumInfoDiv.innerHTML = `<p>Error fetching albums. Please try again later.</p>`;
+                });
+        }
+
+    </script>
+</body>
+</html>
