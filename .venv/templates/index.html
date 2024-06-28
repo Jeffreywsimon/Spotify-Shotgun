@@ -103,10 +103,14 @@ button {
     font-size: 1rem;
     font-family: 'Circular Std', sans-serif;
     border-image: linear-gradient(90deg, rgba(18,18,18,1) 0%, rgba(3,29,0,1) 99%);
+    cursor:pointer;
 
     border-radius: 30px; /* Adjust this value to change the softness of edges */
 }
-
+button:active{
+cursor:wait;
+transition:5s 5s;
+}
 .button-arounder {
     font-family: 'Circular Std', sans-serif;
     font-size: 2rem;
@@ -224,8 +228,7 @@ font-family: 'Circular Std', sans-serif;
     </style>
 </head>
 <body>
-<div class="background-container">
-
+<div class="background-container" >
     <div class="header">
         <div class="spotify-shotgun">
         <h1>Spotify Shotgun</h1>
@@ -233,65 +236,60 @@ font-family: 'Circular Std', sans-serif;
         <p class="subheading">
             Discover new sounds
         </p>
-          <a href="/random-albums">Get Random Albums (JSON)</a><br>
-    <a href="/download-excel">Download Random Albums (Excel)</a><br>
-
-<!--        <img src="{{user_image2}}" class="music-listener" alt="listening">-->
+        <a href="/random-albums">Get Random Albums (JSON)</a><br>
+        <a href="/download-excel">Download Random Albums (Excel)</a><br>
     </div>
     <div class="container">
         <div class="buttons-container">
-
-            <button class='button-arounder' onclick="fetchRandomAlbums()"> <img src="{{user_image}}" class="spotify-image" alt="spotify">Explore</button>
-</div>
-
-
+            <button class='button-arounder' id="startButton" onclick="fetchRandomAlbums()"> <img src="{{user_image}}" class="spotify-image" alt="spotify">Explore</button>
+        </div>
         <div class="album-info" id="album-info"></div>
     </div>
-    </div>
-</body>
+</div>
 
+<script>
+    function fetchRandomAlbums() {
+        fetch('/random-albums')
+            .then(response => response.json())
+            .then(data => {
+                const albumInfoDiv = document.getElementById('album-info');
+                albumInfoDiv.innerHTML = ''; // Clear previous results
+                if (data.error) {
+                    albumInfoDiv.innerHTML = `<p>Error fetching albums: ${data.error}</p>`;
+                } else if (data && data.length > 0) {
+                    data.forEach(album => {
+                        const albumDiv = document.createElement('div');
+                        albumDiv.className = 'album';
+                        albumDiv.innerHTML = `
+                            <img src="${album.image_url}" alt="Album cover of ${album.name}">
+                            <p><strong>Album Name:</strong> ${album.name}</p>
+                            <p><strong>Artist:</strong> ${album.artist}</p>
+                            <p><strong>Release Date:</strong> ${album.release_date}</p>
+                            <p><strong>Total Tracks:</strong> ${album.total_tracks}</p>
+                            <p><a href="${album.url}" target="_blank">Listen on Spotify</a></p>
+                        `;
+                        albumInfoDiv.appendChild(albumDiv);
+                    });
+                } else {
+                    albumInfoDiv.innerHTML = `<p>No albums found. Try again!</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching albums:', error);
+                const albumInfoDiv = document.getElementById('album-info');
+                albumInfoDiv.innerHTML = `<p>Error fetching albums. Please try again later.</p>`;
+            });
+              document.getElementById('startButton').addEventListener('click', function() {
+            // Add wait-cursor class to the body
+            document.body.classList.add('wait-cursor');
 
-    <script>
-        function addHeader() {
-            const container = document.getElementById('container');
-            const header = document.createElement('div');
-            header.className = 'spotify-shotgun';
-            header.innerHTML = '<h1>Spotify Shotgun</h1>';
-            container.insertBefore(header, container.firstChild);
-        }
-        function fetchRandomAlbums() {
-            fetch('/random-albums')
-                .then(response => response.json())
-                .then(data => {
-                    const albumInfoDiv = document.getElementById('album-info');
-                    albumInfoDiv.innerHTML = ''; // Clear previous results
-                    if (data.error) {
-                        albumInfoDiv.innerHTML = `<p>Error fetching albums: ${data.error}</p>`;
-                    } else if (data && data.length > 0) {
-                        data.forEach(album => {
-                            const albumDiv = document.createElement('div');
-                            albumDiv.className = 'album';
-                            albumDiv.innerHTML = `
-                                <img src="${album.image_url}" alt="Album cover of ${album.name}">
-                                <p><strong>Album Name:</strong> ${album.name}</p>
-                                <p><strong>Artist:</strong> ${album.artist}</p>
-                                <p><strong>Release Date:</strong> ${album.release_date}</p>
-                                <p><strong>Total Tracks:</strong> ${album.total_tracks}</p>
-                                <p><a href="${album.url}" target="_blank">Listen on Spotify</a></p>
-                            `;
-                            albumInfoDiv.appendChild(albumDiv);
-                        });
-                    } else {
-                        albumInfoDiv.innerHTML = `<p>No albums found. Try again!</p>`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching albums:', error);
-                    const albumInfoDiv = document.getElementById('album-info');
-                    albumInfoDiv.innerHTML = `<p>Error fetching albums. Please try again later.</p>`;
-                });
-        }
-
-    </script>
+            // Simulate a long-running action (e.g., 3 seconds)
+            setTimeout(function() {
+                // Remove wait-cursor class after the specified duration
+                document.body.classList.remove('wait-cursor');
+            }, 3000); // 3000 milliseconds = 3 seconds
+        });
+    }
+</script>
 </body>
 </html>
