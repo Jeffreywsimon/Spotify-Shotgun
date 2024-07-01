@@ -7,7 +7,7 @@
     <title>Spotify Shotgun</title>
     <style>
 
-        @font-face {
+ @font-face {
     font-family: 'Circular Std';
     src: url('path/to/fonts/CircularStd-Book.woff2') format('woff2'),
          url('path/to/fonts/CircularStd-Book.woff') format('woff');
@@ -15,7 +15,7 @@
     font-style: normal;
 }
 
-     html, body {
+html, body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -32,14 +32,15 @@ body {
     justify-content: flex-start;
     background: linear-gradient(40deg, #4a4a4a 16%, #050505 99%);
 }
+
 .background-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-background: rgb(18,18,18);
-background: linear-gradient(352deg, rgba(18,18,18,1) 0%, rgba(24,24,24,1) 100%);
+    background: rgb(18,18,18);
+    background: linear-gradient(352deg, rgba(18,18,18,1) 0%, rgba(24,24,24,1) 100%);
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
@@ -49,41 +50,39 @@ background: linear-gradient(352deg, rgba(18,18,18,1) 0%, rgba(24,24,24,1) 100%);
     overflow: auto; /* Ensure scrolling if content overflows */
 }
 
-        h1 {
-        font-family: 'Circular Std', sans-serif;
+h1 {
+    font-family: 'Circular Std', sans-serif;
+    font-size: 2.5em;
+    text-align: center;
+    margin-top: 20px;
+}
 
+.spotify-image {
+    position: relative;
+    max-width: 15%;
+    max-height: 15%;
+    min-width: 5%;
+    min-height: 5%;
+    height: 5%;
+    width: 5%;
+    z-index: 3;
+}
 
-            font-size: 2.5em;
-            text-align: center;
-            margin-top: 20px;
+.container {
+    background: rgb(225,252,224);
+    background: linear-gradient(90deg, rgba(225,252,224,1) 0%, rgba(219,219,219,1) 92%);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-top: 20px;
+    z-index: 2;
+    width: 30%; /* Adjust the width as needed */
+    max-width: 1200px; /* Adjust the max-width as needed */
+    position: relative;
+}
 
-
-        }
-
-        .spotify-image{
-        position: relative;
-        width:5%;
-        height:5%;
-
-
-        z-index:3;
-        }
-
-        .container {
-            background: rgb(225,252,224);
-            background: linear-gradient(90deg, rgba(225,252,224,1) 0%, rgba(219,219,219,1) 92%);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-top: 20px;
-            z-index:2;
-            width: 30%; /* Adjust the width as needed */
-            max-width: 1200px; /* Adjust the max-width as needed */
-            position:relative;
-        }
-
-        :root {
+:root {
     --radius: 30px; /* Define this variable for border radius */
 }
 
@@ -97,20 +96,21 @@ background: linear-gradient(352deg, rgba(18,18,18,1) 0%, rgba(24,24,24,1) 100%);
 }
 
 button {
-    background: white;
     border: solid 1px;
     padding: .375em 1.125em;
     font-size: 1rem;
     font-family: 'Circular Std', sans-serif;
     border-image: linear-gradient(90deg, rgba(18,18,18,1) 0%, rgba(3,29,0,1) 99%);
-    cursor:pointer;
-
+    cursor: pointer;
     border-radius: 30px; /* Adjust this value to change the softness of edges */
+    background: transparent;
 }
-button:active{
-cursor:wait;
-transition:5s 5s;
+
+button:active {
+    cursor: wait;
+    transition: 5s 5s;
 }
+
 .button-arounder {
     font-family: 'Circular Std', sans-serif;
     font-size: 2rem;
@@ -135,119 +135,202 @@ transition:5s 5s;
     background: linear-gradient(90deg, rgba(18,18,18,1) 0%, rgba(3,29,0,1) 99%);
     border-radius: var(--radius); /* Ensure this uses the defined radius */
 }
-        .album-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            margin-top: 20px;
-            font-size: 1.2em;
-        }
 
-        .album {
-            flex: 0 1 calc(50% - 40px);
-            box-sizing: border-box;
-            margin-bottom: 20px;
-            background-color: #fafafa;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-            text-align: left;
-        }
+.album-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+    font-size: 1.2em;
+}
 
-        .album img {
-            max-width: 100%;
-            border-radius: 4px;
-        }
-<!--        .album img:hover {-->
-<!--            transform: scale(1.2);-->
-<!--        }-->
+.album {
+    flex: 0 1 calc(50% - 40px);
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
 
+.album img {
+    max-width: 100%;
+    border-radius: 4px;
+}
 
-        .album a {
-            color: #1DB954;
-            text-decoration: none;
-        }
+.album a {
+    color: #1DB954;
+    text-decoration: none;
+}
 
-        .album a:hover {
-            text-decoration: underline;
-        }
-        .music-listener{
-        width: 100%;
+.album a:hover {
+    text-decoration: underline;
+}
+
+.music-listener {
+    width: 100%;
     height: auto;
     display: block;
-    down:450px;
-
-        }
-
-        .header {
-background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('static/pics/soundtrap-C-2Wky-LT7k-unsplash.jpg');
-  height: 70%;
- background-position: bottom 90% right 40%;
-  width:100%;
-
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
-  margin-bottom:25px;
+    down: 450px;
 }
-        .spotify-shotgun{
-font-family: 'Circular Std', sans-serif;
-  text-align: center;
-  position: relative;
-  margin-top:50px;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-   background: linear-gradient(to right, #1DB954, #1ED760, #FFFFFF 50%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-  opacity:.7;
-    font-size:40px;
-    letter-spacing:8px;
+
+.header {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('static/pics/soundtrap-C-2Wky-LT7k-unsplash.jpg');
+    height: 70%;
+    background-position: bottom 90% right 40%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    margin-bottom: 25px;
 }
-        .subheading{
-        font-family: 'Circular Std', sans-serif;
-  text-align: center;
-  position: relative;
-  margin-top:5%;
-   color: white;
-   background: linear-gradient(to right, #1DB954, #1ED760, #FFFFFF 50%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-  opacity:.7;
-    font-size:10px;
-    letter-spacing:4px;
 
-        }
+.spotify-shotgun {
+    font-family: 'Circular Std', sans-serif;
+    text-align: center;
+    position: relative;
+    margin-top: 50px;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    background: linear-gradient(to right, #1DB954, #1ED760, #FFFFFF 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    opacity: .7;
+    font-size: 40px;
+    letter-spacing: 8px;
+}
 
+.subheading {
+    font-family: 'Circular Std', sans-serif;
+    text-align: center;
+    position: relative;
+    margin-top: 5%;
+    color: white;
+    background: linear-gradient(to right, #1DB954, #1ED760, #FFFFFF 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    opacity: .7;
+    font-size: 10px;
+    letter-spacing: 4px;
+}
+
+.wait-cursor {
+    cursor: wait;
+}
+
+/* Style the scroll-to-top button */
+#myBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed/sticky position */
+    bottom: 20px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
+    z-index: 99; /* Make sure it does not overlap */
+    border: none; /* Remove borders */
+    outline: none; /* Remove outline */
+    background-color: #555; /* Set a background color */
+    color: white; /* Text color */
+    cursor: pointer; /* Add a mouse pointer on hover */
+    padding: 15px; /* Some padding */
+    border-radius: 10px; /* Rounded corners */
+}
+
+#myBtn:hover {
+    background-color: #000; /* Add a dark-grey background on hover */
+}
+
+.addsavecontainer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: fixed;
+      width: 10%;
+background: rgb(225,252,224);
+    background: linear-gradient(90deg, rgba(225,252,224,1) 0%, rgba(219,219,219,1) 92%);
+
+      margin-bottom: 0px;
+      border-radius: 10px;
+      padding: 0px; /* Adjust padding as needed */
+    }
+
+    .addsavecontainer img {
+      height: 15%;
+      width: 15%;
+      display: block;
+      margin: 0; /* Remove any default margin */
+      padding: 0px; /* Adjust padding to reduce space */
+    }
+.download{
+height: auto;
+color: green;
+}
     </style>
 </head>
 <body>
 <div class="background-container" >
+
     <div class="header">
+        <div class="addsavecontainer">
+
+
+        <button class='download' onclick="downloadAlbums()">
+
+        <img src="{{user_image3}}" class="" alt="spotify">
+    </button>
+
+        <button class='' onclick="storeAlbums()">
+       <img src="{{user_image4}}" class="" alt="spotify">
+    </button>   </div>
+
+
         <div class="spotify-shotgun">
+
         <h1>Spotify Shotgun</h1>
         </div>
         <p class="subheading">
             Discover new sounds
         </p>
-        <a href="/random-albums">Get Random Albums (JSON)</a><br>
-        <a href="/download-excel">Download Random Albums (Excel)</a><br>
+<!--        <a href="/random-albums">Get Random Albums (JSON)</a><br>-->
+<!--        <a href="/download-excel">Download Random Albums (Excel)</a><br>-->
     </div>
     <div class="container">
         <div class="buttons-container">
-            <button class='button-arounder' id="startButton" onclick="fetchRandomAlbums()"> <img src="{{user_image}}" class="spotify-image" alt="spotify">Explore</button>
+            <button class='button-arounder'  onclick="fetchRandomAlbums()"> <img src="{{user_image}}" class="spotify-image" alt="spotify">Explore</button>
         </div>
         <div class="album-info" id="album-info"></div>
+
+
     </div>
 </div>
 
 <script>
+
+  function storeAlbums() {
+    fetch('/store-albums', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(`Error storing albums: ${data.error}`);
+            } else {
+                alert('Albums stored successfully!');
+            }
+        })
+        .catch(error => {
+            console.error('Error storing albums:', error);
+            alert('Error storing albums. Please try again later.');
+        });
+}
+    function downloadAlbums() {
+    window.location.href = '/download-albums';
+}
+
     function fetchRandomAlbums() {
         fetch('/random-albums')
             .then(response => response.json())
@@ -279,16 +362,6 @@ font-family: 'Circular Std', sans-serif;
                 const albumInfoDiv = document.getElementById('album-info');
                 albumInfoDiv.innerHTML = `<p>Error fetching albums. Please try again later.</p>`;
             });
-              document.getElementById('startButton').addEventListener('click', function() {
-            // Add wait-cursor class to the body
-            document.body.classList.add('wait-cursor');
-
-            // Simulate a long-running action (e.g., 3 seconds)
-            setTimeout(function() {
-                // Remove wait-cursor class after the specified duration
-                document.body.classList.remove('wait-cursor');
-            }, 3000); // 3000 milliseconds = 3 seconds
-        });
     }
 </script>
 </body>

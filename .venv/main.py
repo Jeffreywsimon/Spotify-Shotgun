@@ -1,29 +1,28 @@
 import os
 import base64
 import json
-from flask import Flask, render_template, jsonify, send_file, make_response
+from flask import Flask, render_template, jsonify, send_file, make_response,session
 from dotenv import load_dotenv
 from requests import post, get
 import pandas as pd
 import io
 import random
+import string
+import xlsxwriter
 
 load_dotenv()
+
 app = Flask(__name__)
+app.secret_key = os.urandom(24)
 
 picFolder = os.path.join('static', 'pics')
 app.config['UPLOAD_FOLDER'] = picFolder
 
-# Replace these with your own Spotify Developer credentials
 SPOTIPY_CLIENT_ID = os.getenv('CLIENT_ID')
 SPOTIPY_CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
-letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-random_letter = random.choice(letters)
-print(random_letter)
-random_offset=random.randint(1, 1000)
-print(random_offset)
-album_count=0
+album_count = 0
+albums_list = []  # List to store albums
 
 
 def authenticate_spotify():
@@ -47,16 +46,13 @@ def get_auth_header(sp):
     return {'Authorization': 'Bearer ' + sp}
 
 
-import random
-import string
-
 def get_random_albums(sp, limit=10):
     albums = []
-    album_names = set()  # To keep track of unique album names
+    album_names = set()
 
     while len(albums) < limit:
-        random_letter = random.choice(string.ascii_lowercase)  # Select a random letter
-        random_offset = random.randint(0, 1000)  # Randomize offset to reduce chance of duplicates
+        random_letter = random.choice(string.ascii_lowercase)
+        random_offset = random.randint(1, 1000)
 
         url = 'https://api.spotify.com/v1/search'
         headers = get_auth_header(sp)
@@ -95,40 +91,62 @@ sp = authenticate_spotify()
 def index():
     pic1 = os.path.join(app.config['UPLOAD_FOLDER'], '4b135b9f16b30caa386a32c6a64990c9.png')
     pic2 = os.path.join(app.config['UPLOAD_FOLDER'], 'soundtrap-C-2Wky-LT7k-unsplash.jpg')
-    return render_template('index.html', user_image=pic1, user_image2=pic2)
+    pic3 = os.path.join(app.config['UPLOAD_FOLDER'], 'Save.png')
+    pic4 = os.path.join(app.config['UPLOAD_FOLDER'], 'Add.png')
+    return render_template('index.html', user_image=pic1, user_image2=pic2, user_image3=pic3, user_image4=pic4)
 
 
 @app.route('/random-albums', methods=['GET'])
 def random_albums():
     try:
-        albums = get_random_albums(sp, limit=10)
-        return jsonify(albums)
+        new_albums = get_random_albums(sp, limit=10)
+        return jsonify(new_albums)
     except Exception as e:
         app.logger.error(f"Error fetching albums: {e}")
         return jsonify({'error': str(e)}), 500
 
-@app.route('/download-excel', methods=['GET'])
-def download_excel():
+
+@app.route('/download-albums', methods=['GET'])
+def download_albums():
     try:
-        letter = 'a'  # Example letter, you can make this dynamic
-        albums = get_random_albums(sp, letter, limit=10)
-        df = pd.DataFrame(albums)
+        albums_list = session.get('albums_list', [])
+        if not albums_list:
+            return jsonify({'error': 'No albums to download.'}), 400
 
-        # Save the DataFrame to an Excel file in memory
+        df = pd.DataFrame(albums_list)
         output = io.BytesIO()
-        with pd.ExcelWriter(output, engine='openpyxl') as writer:
-            df.to_excel(writer, index=False, sheet_name='Random Albums')
-
+        writer = pd.ExcelWriter(output, engine='xlsxwriter')
+        df.to_excel(writer, index=False, sheet_name='Albums')
+        writer.close()  # Correct method to save and close the writer
         output.seek(0)
 
-        # Send the file to the client
-        response = make_response(send_file(output, as_attachment=True, download_name='random_albums.xlsx',
-                                           mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))
-        response.headers["Content-Disposition"] = "attachment; filename=random_albums.xlsx"
-        return response
+        return send_file(output, download_name='albums.xlsx', as_attachment=True)
     except Exception as e:
-        app.logger.error(f"Error creating Excel file: {e}")
+        app.logger.error(f"Error downloading albums: {e}")
         return jsonify({'error': str(e)}), 500
+
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    if 'albums_list' not in session:
+        session['albums_list'] = []
+
+@app.route('/store-albums', methods=['POST'])
+def store_albums():
+    try:
+        new_albums = get_random_albums(sp, limit=10)
+        albums_list = session.get('albums_list', [])
+        albums_list.extend(new_albums)
+        session['albums_list'] = albums_list  # Store updated list in session
+        return jsonify({'success': True, 'albums': new_albums})
+    except Exception as e:
+        app.logger.error(f"Error storing albums: {e}")
+        return jsonify({'error': str(e)}), 500
+
+
+
+
 
 
 if __name__ == '__main__':
